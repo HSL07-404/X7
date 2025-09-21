@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Calendar, Clock, CheckCircle, XCircle, AlertCircle, Filter, Search, Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 const AttendanceList: React.FC = () => {
   const { user } = useAuth();
   const { attendanceRecords, classes, students } = useApp();
+  const { t } = useLanguage();
   const [filterDate, setFilterDate] = useState('');
   const [filterClass, setFilterClass] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
@@ -124,30 +126,30 @@ const AttendanceList: React.FC = () => {
     const studentRecords = filteredRecords.filter(record => record.studentId === user.id);
 
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
             My Attendance History
           </h3>
           <button
             onClick={exportToExcel}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
+            className="flex items-center px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-xl hover:bg-green-700 dark:hover:bg-green-800 transition-colors duration-200"
           >
             <Download className="h-4 w-4 mr-2" />
-            Export
+            {t('common.export')}
           </button>
         </div>
 
         <div className="space-y-4">
           {studentRecords.length === 0 ? (
-            <p className="text-center text-gray-500 dark:text-gray-400 py-8">
+            <p className="text-center text-gray-500 dark:text-gray-400 py-8 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
               No attendance records found
             </p>
           ) : (
             studentRecords.map((record) => {
               const classInfo = classes.find(c => c.id === record.classId);
               return (
-                <div key={record.id} className="border dark:border-gray-700 rounded-lg p-4">
+                <div key={record.id} className="border border-gray-200 dark:border-gray-600 rounded-xl p-4 bg-gray-50/50 dark:bg-gray-700/30 hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-200">
                   <div className="flex justify-between items-center">
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-white">
@@ -181,58 +183,58 @@ const AttendanceList: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
           Attendance Records
         </h3>
         <button
           onClick={exportToExcel}
-          className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
+          className="flex items-center px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-xl hover:bg-green-700 dark:hover:bg-green-800 transition-colors duration-200"
         >
           <Download className="h-4 w-4 mr-2" />
-          Export to Excel
+          {t('common.export')} to Excel
         </button>
       </div>
 
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Search
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            {t('common.search')}
           </label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               placeholder="Search student or class..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="pl-10 w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white bg-white dark:bg-gray-700"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Date
           </label>
           <input
             type="date"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white bg-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Class
           </label>
           <select
             value={filterClass}
             onChange={(e) => setFilterClass(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white bg-white"
           >
             <option value="">All Classes</option>
             {classes.map((cls) => (
@@ -244,13 +246,13 @@ const AttendanceList: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Status
           </label>
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white bg-white"
           >
             <option value="">All Status</option>
             <option value="present">Present</option>
@@ -267,16 +269,16 @@ const AttendanceList: React.FC = () => {
               setFilterStatus('');
               setSearchTerm('');
             }}
-            className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200"
+            className="flex items-center px-4 py-3 bg-gray-600 dark:bg-gray-700 text-white rounded-xl hover:bg-gray-700 dark:hover:bg-gray-800 transition-colors duration-200"
           >
             <Filter className="h-4 w-4 mr-2" />
-            Clear
+            {t('common.clear')}
           </button>
         </div>
       </div>
 
       {/* Records Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
@@ -303,7 +305,7 @@ const AttendanceList: React.FC = () => {
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {filteredRecords.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                <td colSpan={6} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50">
                   No attendance records found
                 </td>
               </tr>

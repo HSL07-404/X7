@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useLanguage } from '../../context/LanguageContext';
+import LanguageToggle from '../Layout/LanguageToggle';
 import { glassmorphismStyles } from '../../styles/glassmorphism';
 import { 
   ChevronRightIcon, 
@@ -28,6 +30,7 @@ const EnhancedLandingPage: React.FC<ModernLandingPageProps> = ({ onLoginClick, o
   const [activeSection, setActiveSection] = useState('home');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { darkMode, toggleDarkMode } = useApp();
+  const { t } = useLanguage();
 
   useEffect(() => {
     setIsVisible(true);
@@ -158,7 +161,11 @@ const EnhancedLandingPage: React.FC<ModernLandingPageProps> = ({ onLoginClick, o
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
               <div className="p-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl">
-                <AcademicCapIcon className="w-8 h-8 text-white" />
+                <img 
+                  src="/attendify-logo.jpg" 
+                  alt="Attendify" 
+                  className="w-8 h-8 rounded-lg object-cover"
+                />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
                 Attendify
@@ -193,6 +200,9 @@ const EnhancedLandingPage: React.FC<ModernLandingPageProps> = ({ onLoginClick, o
             </div>
 
             <div className="flex items-center space-x-4">
+              {/* Language Toggle */}
+              <LanguageToggle />
+              
               {/* Dark Mode Toggle */}
               <button
                 onClick={toggleDarkMode}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { apiService } from './services/api';
 import EnhancedLandingPage from './components/Landing/EnhancedLandingPage';
 import ModernLoginPage from './components/Auth/ModernLoginPage';
@@ -142,11 +143,13 @@ const AppContent: React.FC = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppProvider>
-        <AppContent />
-      </AppProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <AppProvider>
+          <AppContent />
+        </AppProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
 

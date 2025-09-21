@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { useDashboard } from '../../hooks/useDashboard';
 import AttendanceSummary from './AttendanceSummary';
 import {
@@ -25,12 +26,13 @@ interface ModernDashboardProps {
 const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) => {
   const { user } = useAuth();
   const { students, classes } = useApp();
+  const { t } = useLanguage();
   const { dashboardData, loading, error } = useDashboard();
 
   // Use real data from API or fallback to mock data
   const stats = [
     {
-      title: 'Overall Attendance',
+      title: t('dashboard.overall_attendance'),
       value: dashboardData?.statistics?.attendance_rate ? `${dashboardData.statistics.attendance_rate}%` : '87.5%',
       change: '+2.3%',
       trend: 'up',
@@ -40,7 +42,7 @@ const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) =
       textColor: 'text-green-600'
     },
     {
-      title: 'Total Students',
+      title: t('dashboard.total_students'),
       value: dashboardData?.statistics?.total_students ? dashboardData.statistics.total_students.toString() : students.length.toString(),
       change: '+12',
       trend: 'up',
@@ -50,7 +52,7 @@ const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) =
       textColor: 'text-blue-600'
     },
     {
-      title: 'Active Classes',
+      title: t('dashboard.active_classes'),
       value: dashboardData?.statistics?.active_classes ? dashboardData.statistics.active_classes.toString() : classes.length.toString(),
       change: '+3',
       trend: 'up',
@@ -60,7 +62,7 @@ const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) =
       textColor: 'text-purple-600'
     },
     {
-      title: 'At Risk Students',
+      title: t('dashboard.at_risk_students'),
       value: '8',
       change: '-2',
       trend: 'down',
@@ -73,28 +75,28 @@ const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) =
 
   const quickActions = [
     {
-      title: 'Start Class Session',
+      title: t('dashboard.start_class'),
       description: 'Begin attendance tracking',
       icon: QrCodeIcon,
       color: 'from-indigo-500 to-purple-600',
       action: () => setActiveSection('attendance')
     },
     {
-      title: 'Face Recognition',
+      title: t('dashboard.face_recognition'),
       description: 'AI-powered check-in',
       icon: CameraIcon,
       color: 'from-green-500 to-emerald-600',
       action: () => setActiveSection('attendance')
     },
     {
-      title: 'Generate Report',
+      title: t('dashboard.generate_report'),
       description: 'Export attendance data',
       icon: DocumentTextIcon,
       color: 'from-blue-500 to-cyan-600',
       action: () => setActiveSection('reports')
     },
     {
-      title: 'View Analytics',
+      title: t('dashboard.view_analytics'),
       description: 'Attendance insights',
       icon: ChartBarIcon,
       color: 'from-purple-500 to-pink-600',
@@ -157,7 +159,7 @@ const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) =
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
-              Welcome back, {user?.name}! 👋
+              {t('dashboard.welcome')}, {user?.name}! 👋
             </h1>
             <p className="text-indigo-100 dark:text-indigo-200 text-lg">
               {new Date().toLocaleDateString('en-US', {
@@ -201,7 +203,7 @@ const ModernDashboard: React.FC<ModernDashboardProps> = ({ setActiveSection }) =
 
       {/* Quick Actions */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-8 shadow-lg border border-gray-100 dark:border-gray-700">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 sm:mb-6">Quick Actions</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 sm:mb-6">{t('dashboard.quick_actions')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action, index) => (
             <button

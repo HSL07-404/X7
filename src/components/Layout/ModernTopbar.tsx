@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useApp } from "../../context/AppContext";
+import LanguageToggle from "./LanguageToggle";
 import {
   Bars3Icon,
   BellIcon,
@@ -57,7 +58,11 @@ const ModernTopbar: React.FC<ModernTopbarProps> = ({ setSidebarOpen, setActiveSe
           {/* Logo + Brand - Hidden on mobile when sidebar exists */}
           <div className="hidden lg:flex items-center space-x-3">
             <div className={`p-2 bg-gradient-to-r ${currentGradient} rounded-xl shadow-lg`}>
-              <AcademicCapIcon className="h-8 w-8 text-white" />
+              <img 
+                src="/attendify-logo.jpg" 
+                alt="Attendify" 
+                className="h-8 w-8 rounded-lg object-cover"
+              />
             </div>
             <div>
               <span className={`text-xl font-bold bg-gradient-to-r ${currentGradient} bg-clip-text text-transparent`}>
@@ -141,6 +146,9 @@ const ModernTopbar: React.FC<ModernTopbarProps> = ({ setSidebarOpen, setActiveSe
               Login
             </button>
           )}
+          
+          {/* Language Toggle */}
+          <LanguageToggle />
         </div>
       </div>
     </header>

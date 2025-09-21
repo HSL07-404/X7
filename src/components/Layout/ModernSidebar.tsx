@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import {
   HomeIcon,
   UserGroupIcon,
@@ -29,6 +30,7 @@ const ModernSidebar: React.FC<ModernSidebarProps> = ({
   setActiveSection 
 }) => {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
 
   // Role-specific gradient classes
   const roleGradients = {
@@ -40,17 +42,17 @@ const ModernSidebar: React.FC<ModernSidebarProps> = ({
   const currentGradient = roleGradients[user?.role as keyof typeof roleGradients] || roleGradients.admin;
 
   const navigationItems = [
-    { id: "dashboard", label: "Dashboard", icon: HomeIcon, roles: ["student", "faculty", "admin"] },
-    { id: "attendance", label: "Attendance", icon: UserGroupIcon, roles: ["student", "faculty", "admin"] },
+    { id: "dashboard", label: t('nav.dashboard'), icon: HomeIcon, roles: ["student", "faculty", "admin"] },
+    { id: "attendance", label: t('nav.attendance'), icon: UserGroupIcon, roles: ["student", "faculty", "admin"] },
     { id: "dual-attendance", label: "Smart Attendance", icon: CameraIcon, roles: ["student"] },
     { id: "face-enrollment", label: "Face Enrollment", icon: CameraIcon, roles: ["student"] },
     { id: "teacher-dashboard", label: "Teacher Dashboard", icon: AcademicCapIcon, roles: ["faculty"] },
-    { id: "classes", label: "Classes", icon: CalendarIcon, roles: ["faculty", "admin"] },
-    { id: "students", label: "Students", icon: UserGroupIcon, roles: ["faculty", "admin"] },
-    { id: "faculty", label: "Faculty", icon: AcademicCapIcon, roles: ["admin"] },
-    { id: "reports", label: "Reports", icon: DocumentTextIcon, roles: ["faculty", "admin"] },
-    { id: "analytics", label: "Analytics", icon: ChartBarIcon, roles: ["student", "faculty", "admin"] },
-    { id: "settings", label: "Settings", icon: CogIcon, roles: ["student", "faculty", "admin"] },
+    { id: "classes", label: t('nav.classes'), icon: CalendarIcon, roles: ["faculty", "admin"] },
+    { id: "students", label: t('nav.students'), icon: UserGroupIcon, roles: ["faculty", "admin"] },
+    { id: "faculty", label: t('nav.faculty'), icon: AcademicCapIcon, roles: ["admin"] },
+    { id: "reports", label: t('nav.reports'), icon: DocumentTextIcon, roles: ["faculty", "admin"] },
+    { id: "analytics", label: t('nav.analytics'), icon: ChartBarIcon, roles: ["student", "faculty", "admin"] },
+    { id: "settings", label: t('nav.settings'), icon: CogIcon, roles: ["student", "faculty", "admin"] },
   ];
 
   const filteredItems = navigationItems.filter(
@@ -89,7 +91,11 @@ const ModernSidebar: React.FC<ModernSidebarProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className={`p-2 bg-gradient-to-r ${currentGradient} rounded-xl shadow-lg`}>
-                <AcademicCapIcon className="h-8 w-8 text-white" />
+                <img 
+                  src="/attendify-logo.jpg" 
+                  alt="Attendify" 
+                  className="h-8 w-8 rounded-lg object-cover"
+                />
               </div>
               <div>
                 <span className="font-bold text-xl text-gray-900 dark:text-white">Attendify</span>
@@ -172,7 +178,7 @@ const ModernSidebar: React.FC<ModernSidebarProps> = ({
             <div className="p-2 rounded-xl mr-3 bg-red-100/50 dark:bg-red-900/30 group-hover:bg-red-200/50 dark:group-hover:bg-red-800/30 transition-all duration-300">
               <ArrowRightOnRectangleIcon className="h-5 w-5" />
             </div>
-            <span className="font-medium">Sign Out</span>
+            <span className="font-medium">{t('nav.logout')}</span>
           </button>
         </div>
       </aside>

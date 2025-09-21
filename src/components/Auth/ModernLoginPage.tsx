@@ -164,7 +164,7 @@ const ModernLoginPage: React.FC<ModernLoginPageProps> = ({
           <div className="text-center mb-8 animate-slide-up">
             <div className="relative mb-6">
               <img 
-                src="/logo.png" 
+                src="/attendify-logo.jpg" 
                 alt="Attendify" 
                 className="w-20 h-20 rounded-2xl shadow-lg hover:scale-110 transition-transform duration-300 animate-float mx-auto" 
               />
